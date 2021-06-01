@@ -1,4 +1,4 @@
-## Oiii! Eu sou a Raiany Souza
+## Oiii! Eu sou a Raiany de Souza
 
  <div>
   <a href="https://github.com/raysouzaa">
