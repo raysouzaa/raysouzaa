@@ -1,18 +1,26 @@
-## Oiii! Eu sou a Raiany de Souza
+### Hi there 👋
+## My name is Raiany de Souza
 
+### ⚡ Github stats ⚡
  <div>
   <a href="https://github.com/raysouzaa">
   <img height="180em" src="https://github-readme-stats.vercel.app/api?username=raysouzaa&show_icons=true&theme=dracula&include_all_commits=true&count_private=true"/>
   <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=raysouzaa&layout=compact&langs_count=16&theme=dracula"/>
+  
+ ### 🚀 My skills 🚀
 <div>
-<div style="display: inline_block"><br>
+<div style="display: inline_block">
   <img align="center" alt="Ray-Js" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
   <img align="center" alt="Ray-Ts" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg">
   <img align="center" alt="Ray-React" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
   <img align="center" alt="Ray-HTML" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg">
   <img align="center" alt="Ray-CSS" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg">
 </div>
-  
+ 
+ ### 💻 **My favorite OS:** 
+  ![linux badge](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+  ![mint badge](https://img.shields.io/badge/Mint-E95420?style=for-the-badge&logo=linux&logoColor=white) 
+ 
   ##
  
 <div> 
