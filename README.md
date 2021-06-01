@@ -5,7 +5,7 @@
  <div>
   <a href="https://github.com/raysouzaa">
   <img height="180em" src="https://github-readme-stats.vercel.app/api?username=raysouzaa&show_icons=true&theme=dracula&include_all_commits=true&count_private=true"/>
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=raysouzaa&layout=compact&langs_count=16&theme=dracula"/><br>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=raysouzaa&layout=compact&langs_count=16&theme=dracula"/>
   
  ### 🚀 My skills 🚀
 <div>
@@ -20,7 +20,7 @@
   <img align="center" alt="Ray-Docker" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-plain.svg">
  <img align="center" alt="Ray-Mysql" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-plain.svg">
 </div>
- 
+
  ### 💻 **My favorite OS:** 
   ![linux badge](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
   ![mint badge](https://img.shields.io/badge/Mint-87CF3E?style=for-the-badge&logo=linux-mint&logoColor=white) 
