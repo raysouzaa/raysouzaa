@@ -19,7 +19,7 @@
  
  ### 💻 **My favorite OS:** 
   ![linux badge](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-  ![mint badge](https://img.shields.io/badge/Mint-E95420?style=for-the-badge&logo=linux&logoColor=white) 
+  ![mint badge](https://img.shields.io/badge/Mint-E95420?style=for-the-badge&logo=linux-mint&logoColor=white) 
  
   ##
  
