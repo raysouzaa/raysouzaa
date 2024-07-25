@@ -1,7 +1,7 @@
 ### Hi there 👋
-## My name is Raiany de Souza
+## My name is Raiany Souza
 
-### ⚡ Github stats ⚡
+### ⚡ GitHub stats ⚡
  <div>
   <a href="https://github.com/raysouzaa">
   <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=raysouzaa&layout=compact&langs_count=16&theme=dracula"/>
