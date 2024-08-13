@@ -1,5 +1,5 @@
 ### Hi there 👋
-## My name is Raiany Souza
+## My name is Raiany.
 
 ### ⚡ GitHub stats ⚡
  <div>
