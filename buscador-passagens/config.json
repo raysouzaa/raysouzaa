@@ -1,0 +1,45 @@
+{
+  "currency": "BRL",
+  "origins": ["SAO"],
+  "destinations": [
+    { "code": "LIS", "name": "Lisboa" },
+    { "code": "OPO", "name": "Porto" },
+    { "code": "MAD", "name": "Madri" },
+    { "code": "BCN", "name": "Barcelona" },
+    { "code": "PAR", "name": "Paris" },
+    { "code": "ROM", "name": "Roma" },
+    { "code": "MIL", "name": "Milão" },
+    { "code": "AMS", "name": "Amsterdã" },
+    { "code": "FRA", "name": "Frankfurt" }
+  ],
+  "openJaw": [
+    { "out": "LIS", "back": "ROM", "label": "Chega em Lisboa, volta de Roma" },
+    { "out": "LIS", "back": "PAR", "label": "Chega em Lisboa, volta de Paris" },
+    { "out": "MAD", "back": "ROM", "label": "Chega em Madri, volta de Roma" },
+    { "out": "LIS", "back": "MAD", "label": "Chega em Lisboa, volta de Madri" }
+  ],
+  "window": {
+    "departFrom": "2027-04-01",
+    "departTo": "2027-05-10",
+    "minDays": 12,
+    "maxDays": 15
+  },
+  "preferredDepartWeekdays": [2, 3],
+  "preferredReturnWeekdays": [2, 3, 4],
+  "blackouts": [
+    { "from": "2027-03-25", "to": "2027-03-29", "reason": "Páscoa (28/03/2027)" },
+    { "from": "2027-04-16", "to": "2027-04-21", "reason": "Feriado de Tiradentes (21/04, quarta)" },
+    { "from": "2027-04-29", "to": "2027-05-02", "reason": "Feriado de 1º de maio (sábado)" }
+  ],
+  "alerts": {
+    "priceThreshold": 4000,
+    "dropPercent": 8,
+    "sendDigestAlways": true,
+    "topN": 15
+  },
+  "serpapi": {
+    "destinations": ["LIS", "MAD"],
+    "maxSearchesPerRun": 8
+  },
+  "schedule": "0 7,19 * * *"
+}

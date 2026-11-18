@@ -1,0 +1,9 @@
+services:
+  buscador:
+    build: .
+    container_name: buscador-passagens
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+      - ./config.json:/app/config.json:ro

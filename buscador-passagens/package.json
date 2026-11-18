@@ -1,0 +1,19 @@
+{
+  "name": "buscador-passagens",
+  "version": "1.0.0",
+  "description": "Monitora passagens Brasil -> Europa e envia alertas de preço por e-mail",
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "once": "node src/index.js --once",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.16"
+  }
+}
