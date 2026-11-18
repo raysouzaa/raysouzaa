@@ -1,6 +1,6 @@
 # ✈️ Buscador de passagens Brasil → Europa
 
-Monitora tarifas de ida e volta de São Paulo para as principais portas de entrada da Europa
+Monitora tarifas de ida e volta de **Belém (BEL)** para as principais portas de entrada da Europa
 (Lisboa, Porto, Madri, Barcelona, Paris, Roma, Milão, Amsterdã e Frankfurt). Também busca combinações
 de **chegada por uma cidade e volta por outra** (open-jaw). O resultado chega **por e-mail**.
 
@@ -9,7 +9,7 @@ O guia de viagem, com quando comprar, por onde entrar e os roteiros, está em [d
 ## O que ele faz
 - **Datas:**
   - considera ida entre 01/04 e 10/05/2027, com viagens de 12 a 15 dias
-  - prioriza ida terça ou quarta e volta terça, quarta ou quinta
+  - prioriza ida segunda, terça, quarta ou sexta e volta de segunda a sexta (o voo direto da TAP saindo de Belém não opera todo dia)
   - pula os feriados: Páscoa, Tiradentes e 1º de maio
 - **Fontes de preço:**
   - **Aviasales / Travelpayouts** (gratuita): preços em cache das buscas recentes, cobrindo todos os destinos e todas as datas
@@ -17,7 +17,7 @@ O guia de viagem, com quando comprar, por onde entrar e os roteiros, está em [d
     "preço baixo/normal/alto" do Google
 - **Histórico:** guarda o histórico de preços em `data/history.json`.
 - **Alerta por e-mail** quando:
-  - o preço fica abaixo do limite (`alerts.priceThreshold`, padrão R$ 4.000), ou
+  - o preço fica abaixo do limite (`alerts.priceThreshold`, padrão R$ 4.500), ou
   - o preço cai X% em relação ao melhor já visto (`alerts.dropPercent`), ou
   - o Google marca o preço como baixo
 - **Resumo diário:** com `sendDigestAlways`, manda também um resumo com o top 15 e **o dia da semana de embarque mais barato**.
@@ -71,7 +71,7 @@ crontab -e
 ## Principais opções do `config.json`
 | Campo | O que é |
 |---|---|
-| `origins` | Códigos de origem: `SAO` (todos os aeroportos de SP), `RIO`, `BSB`, `CNF`, `REC`... |
+| `origins` | Códigos de origem. Padrão `BEL` (Belém). Para comparar com sair de outra cidade, use por exemplo `["BEL", "FOR", "REC", "SAO"]` (o voo doméstico até lá fica por sua conta) |
 | `destinations` | Cidades de destino (códigos IATA de cidade) |
 | `openJaw` | Pares "chega em X, volta de Y" |
 | `window` | Janela de ida e duração mínima e máxima da viagem |

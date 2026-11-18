@@ -15,13 +15,19 @@
 
 - Sobre o dia da semana da compra, os estudos não batem: a Expedia aponta o **domingo**, e os blogs falam em terça e quarta.
   A antecedência pesa mais que o dia da compra. Por isso o buscador roda 2 vezes por dia, todos os dias.
-- **Referência de preço:** de São Paulo, ida e volta para a Europa é considerada **barata entre R$ 2.800 e R$ 4.000**.
-  Em 18/11/2026 a TAP mostrava para abril de 2027 GRU–Lisboa a partir de R$ 5.429, GRU–Madri a partir de R$ 5.296
-  e GRU–Paris a partir de R$ 5.519. **Não compre nessa faixa.** Espere a Black Friday ou um alerta abaixo de R$ 4.000.
+- **Referência de preço saindo de Belém:**
+  - a TAP é a única com voo direto Belém–Lisboa, de cerca de 8h. As outras rotas fazem escala no Brasil ou em outro país
+  - a página de abril de 2027 da TAP mostrava Belém–Lisboa a partir de **cerca de R$ 5.980**. Belém–Paris (via Lisboa)
+    aparecia a partir de R$ 5.482 para outras datas, às vezes mais barato que ir só até Lisboa
+  - em promoção, Belém–Europa costuma ficar entre **R$ 4.000 e R$ 5.000** ida e volta. O alerta do buscador está em
+    **R$ 4.500**. Acima de R$ 5.500, espere a Black Friday
+  - **com escala** (por Fortaleza, Recife, São Paulo ou Miami) o preço pode cair bastante, segundo o Momondo, em troca de mais horas de viagem
 
 ## 2. Em quais datas voar
 
-- **Ida terça ou quarta, volta terça, quarta ou quinta**, que costumam ser os dias mais baratos. Já está configurado no buscador.
+- **Saindo de Belém, o dia da semana depende dos dias em que o voo direto da TAP opera.** Em 2025 ele saía às segundas,
+  quartas e sextas, e a grade de 2027 ainda não foi confirmada. O buscador testa segunda, terça, quarta e sexta e mostra
+  no e-mail qual dia saiu mais barato. Nas rotas com escala, terça e quarta costumam ser os dias mais baratos.
 - **Datas que vale evitar:**
   - Páscoa, em 28/03/2027
   - Tiradentes, em **21/04/2027 (quarta)**, porque vira feriadão e muita gente sai do Brasil entre 16 e 21/04
@@ -40,6 +46,10 @@
 | Fama da imigração com brasileiros | Mais tranquila | Mais rigorosa: já houve muitos casos de inadmissão |
 | Meios financeiros exigidos | cerca de €75 por entrada + €40 por dia | cerca de €120 por dia (valor reajustado todo ano) |
 | Custo de vida durante a viagem | Um dos mais baratos da Europa Ocidental | Médio |
+
+**Saindo de Belém, Lisboa é ainda mais vantajosa:** é o único voo direto (TAP), sem escala no Brasil e com a imigração
+feita em português. Para voltar de outra cidade (Roma ou Paris), a TAP faz Roma–Lisboa–Belém num bilhete só, e o buscador
+procura essas combinações.
 
 **Vale entrar por Portugal**, mesmo que a passagem custe R$ 200–300 a mais que para Madri. A imigração é feita
 no 1º país Schengen em que você pousa. Se fizer escala em Madri ou Paris a caminho de outro país, é lá que você passa.
@@ -102,6 +112,7 @@ e o voo interno. O buscador já pesquisa essas combinações.
 - **Celular:** contrate um eSIM europeu para os 15 dias, que costuma custar €10–20.
 
 ## 5. Fontes
+- [TAP Belém–Lisboa](https://www.flytap.com/pt_br/passagens-de-belem-para-lisboa) · [TAP Belém–Paris](https://www.flytap.com/pt_br/passagens-de-belem-para-paris) · [Momondo Belém–Europa](https://www.momondo.com.br/passagem/belem/europa) · [Diário do Turismo: voos Belém–Lisboa](https://diariodoturismo.com.br/belem-pa-ganha-terceira-opcao-de-voo-para-lisboa/)
 - [Tarifas TAP abril/2027](https://www.flytap.com/pt_br/passagens-abril) · [TAP GRU–Madri](https://www.flytap.com/pt_br/passagens-de-sao-paulo-para-madri)
 - [Eurodicas: passagem barata para a Europa](https://turismo.eurodicas.com.br/passagem-barata-para-europa/)
 - [Melhores Destinos: adiamento do ETIAS para 2027](https://www.melhoresdestinos.com.br/adiamento-etias-2027.html) · [Seu Dinheiro: ETIAS](https://www.seudinheiro.com/2026/lifestyle/etias-sera-adiado-para-2027-veja-o-que-muda-para-brasileiros-que-vao-a-europa-sama/) · [InsideFlyer](https://www.insideflyer.com/posts/etias-launch-delayed-again-now-expected-in-2027/)

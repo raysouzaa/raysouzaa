@@ -1,6 +1,6 @@
 {
   "currency": "BRL",
-  "origins": ["SAO"],
+  "origins": ["BEL"],
   "destinations": [
     { "code": "LIS", "name": "Lisboa" },
     { "code": "OPO", "name": "Porto" },
@@ -24,21 +24,21 @@
     "minDays": 12,
     "maxDays": 15
   },
-  "preferredDepartWeekdays": [2, 3],
-  "preferredReturnWeekdays": [2, 3, 4],
+  "preferredDepartWeekdays": [1, 2, 3, 5],
+  "preferredReturnWeekdays": [1, 2, 3, 4, 5],
   "blackouts": [
     { "from": "2027-03-25", "to": "2027-03-29", "reason": "Páscoa (28/03/2027)" },
     { "from": "2027-04-16", "to": "2027-04-21", "reason": "Feriado de Tiradentes (21/04, quarta)" },
     { "from": "2027-04-29", "to": "2027-05-02", "reason": "Feriado de 1º de maio (sábado)" }
   ],
   "alerts": {
-    "priceThreshold": 4000,
+    "priceThreshold": 4500,
     "dropPercent": 8,
     "sendDigestAlways": true,
     "topN": 15
   },
   "serpapi": {
-    "destinations": ["LIS", "MAD"],
+    "destinations": ["LIS", "PAR"],
     "maxSearchesPerRun": 8
   },
   "schedule": "0 7,19 * * *"

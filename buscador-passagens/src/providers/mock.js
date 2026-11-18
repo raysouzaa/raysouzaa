@@ -9,7 +9,7 @@ export function searchMock(cfg) {
   for (const p of candidatePairs(cfg)) {
     for (const d of cfg.destinations) {
       out.push({
-        source: 'MOCK', origin: 'GRU', destination: d.code, returnFrom: d.code, destName: d.name,
+        source: 'MOCK', origin: cfg.origins[0], destination: d.code, returnFrom: d.code, destName: d.name,
         depart: p.depart, ret: p.ret, days: p.days,
         price: Math.round((base[d.code] || 5000) * (0.8 + rnd() * 0.5)),
         currency: cfg.currency, airline: 'TP', stops: d.code === 'LIS' ? 0 : 1, link: 'https://example.com',
