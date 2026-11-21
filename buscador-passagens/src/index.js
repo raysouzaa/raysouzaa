@@ -11,7 +11,7 @@ import { buildEmail, sendEmail } from './email.js';
 import { loadJSON, saveJSON } from './storage.js';
 
 const CONFIG_PATH = process.env.CONFIG_PATH || new URL('../config.json', import.meta.url);
-const DATA_DIR = process.env.DATA_DIR || new URL('../data/', import.meta.url).pathname;
+const DATA_DIR = process.env.DATA_DIR || new URL('../data', import.meta.url).pathname;
 const HISTORY_PATH = `${DATA_DIR}/history.json`;
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -85,7 +85,12 @@ export async function runOnce({ useSerpApi = true, boost = null } = {}) {
 
 const isMain = import.meta.url === `file://${process.argv[1]}`;
 if (isMain) {
-  await saveJSON(`${DATA_DIR}/.keep`, {});
+  try {
+    await saveJSON(`${DATA_DIR}/.keep`, {});
+  } catch (e) {
+    console.error(`[erro] sem permissão para gravar em ${DATA_DIR} (${e.code}). No servidor rode: chown -R 1000:1000 data && docker compose restart`);
+    process.exit(1);
+  }
   const cfg = JSON.parse(await readFile(CONFIG_PATH, 'utf8'));
   const tz = process.env.TZ || 'America/Sao_Paulo';
   const safe = (opts) => runOnce(opts).catch((e) => console.error('[erro]', e.message));
