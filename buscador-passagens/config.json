@@ -39,7 +39,7 @@
   },
   "serpapi": {
     "destinations": ["LIS", "PAR"],
-    "maxSearchesPerRun": 8
+    "maxSearchesPerRun": 4
   },
   "schedule": "0 7,19 * * *"
 }

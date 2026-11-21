@@ -31,7 +31,7 @@ O guia de viagem, com quando comprar, por onde entrar e os roteiros, está em [d
    - entre no programa **Aviasales**
    - copie o token em *Tools → API*
 2. **SerpApi (opcional):** crie uma conta em https://serpapi.com. O plano grátis dá algumas centenas de buscas por mês.
-   Com `maxSearchesPerRun: 8` e 2 rodadas por dia são cerca de 480 por mês. Ajuste o valor ao seu plano.
+   O plano grátis tem 250 buscas por mês. Com `maxSearchesPerRun: 4` e 2 rodadas por dia são cerca de 240 por mês, dentro do limite.
 3. **Gmail:**
    - ative a verificação em 2 etapas
    - crie uma **senha de app** em https://myaccount.google.com/apppasswords
