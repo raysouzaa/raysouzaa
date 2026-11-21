@@ -1,85 +1,96 @@
-# ✈️ Buscador de passagens Brasil → Europa
+# ✈️ Buscador de passagens Belém → Europa
 
-Monitora tarifas de ida e volta de **Belém (BEL)** para as principais portas de entrada da Europa
-(Lisboa, Porto, Madri, Barcelona, Paris, Roma, Milão, Amsterdã e Frankfurt). Também busca combinações
-de **chegada por uma cidade e volta por outra** (open-jaw). O resultado chega **por e-mail**.
+Procura passagens de **Belém (BEL)** para a Europa, monta o **roteiro provável** de cada uma e manda tudo **por e-mail**.
+O e-mail traz os preços no corpo e **2 PDFs** de roteiro: um para viajar **sozinha** e outro para **grupo de 4**.
 
-O guia de viagem, com quando comprar, por onde entrar e os roteiros, está em [docs/ROTEIRO.md](docs/ROTEIRO.md).
+O guia de viagem (quando comprar, por onde entrar, custos) está em [docs/ROTEIRO.md](docs/ROTEIRO.md).
 
-## O que ele faz
+## Regras da busca
+- **Saída:** sempre de Belém.
+- **Entrada na Europa:** só por países sem burocracia.
+  - Portugal (Lisboa, Porto), França (Paris), Itália (Roma, Milão) e Alemanha (Frankfurt, Munique, Berlim).
+  - Espanha e Inglaterra servem **só para a volta**: a Espanha é rígida na imigração e a Inglaterra exige ETA.
+- **Volta:** pode ser pela mesma cidade ou por outra cidade segura (Lisboa, Porto, Madri, Barcelona, Paris, Roma, Milão,
+  Frankfurt, Munique, Berlim ou Londres).
+- **Preço:** até **R$ 4.500** ida e volta, com no máximo **16h por trecho**, contando as escalas.
+- **Caso especial:** até **20h por trecho**, desde que custe até **R$ 3.000**. Aparece numa seção separada do e-mail.
 - **Datas:**
-  - considera ida entre 01/04 e 10/05/2027, com viagens de 12 a 15 dias
-  - prioriza ida segunda, terça, quarta ou sexta e volta de segunda a sexta (o voo direto da TAP saindo de Belém não opera todo dia)
-  - pula os feriados: Páscoa, Tiradentes e 1º de maio
-  - descarta voos com mais de **16h de viagem** na ida ou na volta, contando as escalas (`maxFlightHours`)
-- **Fontes de preço:**
-  - **Aviasales / Travelpayouts** (gratuita): preços em cache das buscas recentes, cobrindo todos os destinos e todas as datas
-  - **Google Flights via SerpApi** (opcional, cota grátis pequena): preço ao vivo em algumas datas, com o indicador
-    "preço baixo/normal/alto" do Google
-- **Histórico:** guarda o histórico de preços em `data/history.json`.
-- **Alerta por e-mail** quando:
-  - o preço fica abaixo do limite (`alerts.priceThreshold`, padrão R$ 4.500), ou
-  - o preço cai X% em relação ao melhor já visto (`alerts.dropPercent`), ou
-  - o Google marca o preço como baixo
-- **Resumo diário:** com `sendDigestAlways`, manda também um resumo com o top 15 e **o dia da semana de embarque mais barato**.
-- **Horário:** roda às 07h e às 19h (horário de Brasília). Dá para mudar em `schedule` no `config.json`.
+  - ida entre 01/04 e 10/05/2027, com viagens de **12 a 20 dias**
+  - prioriza ida segunda, terça, quarta ou sexta e volta de segunda a sexta
+  - evita Páscoa, Tiradentes e 1º de maio
+
+## Roteiro automático
+- **Países:** sempre **Alemanha e Itália**. Depois completa com França, Espanha e Inglaterra, conforme os dias.
+- **Portugal** só entra se a passagem chegar ou voltar por Lisboa ou Porto.
+- **Ordem das cidades:** começa onde o voo chega, termina de onde ele volta e segue a ordem com menos deslocamento.
+- **Custos estimados**, por pessoa, em reais:
+  - passagem
+  - hospedagem: **hostel com quarto feminino** para quem vai sozinha, **apartamento ou hotel dividido** para o grupo
+  - comida e transporte local
+  - trens e voos entre cidades
+  - seguro-viagem
+  - ETA, se o roteiro passar pela Inglaterra
+  - 10% para imprevistos
+- **Câmbio:** usa a cotação do euro do dia, do Banco Central Europeu.
+- **PDFs:** trazem passagem, custos, onde ficar em cada cidade (bairros seguros), programação dia a dia,
+  dicas de segurança (sozinha) ou de divisão de gastos (grupo) e os documentos necessários.
+
+## Quando ele manda e-mail
+- **Horários:** às **07h e às 19h** (horário de Brasília).
+- **Promoções:** durante a **Black Friday, a Cyber Monday e a Travel Tuesday** (26/11 a 02/12/2026) e nas
+  liquidações de janeiro (04 a 15/01/2027), busca também **a cada 2 horas**. Essas buscas extras usam só o Aviasales,
+  para não gastar a cota do SerpApi.
+- **Quando envia:** só quando aparece uma passagem nova dentro das regras, ou quando uma já enviada fica 3% mais barata.
+  Assim você não recebe o mesmo e-mail duas vezes por dia.
+- **Sem novidade:** se passar 7 dias sem nada dentro das regras, manda um resumo com a melhor tarifa encontrada.
+
+## Fontes de preço
+- **Aviasales / Travelpayouts** (grátis): preços de buscas recentes. Combina **ida para uma cidade e volta de outra**.
+- **Google Flights via SerpApi** (opcional, 250 buscas/mês grátis): confere **ao vivo** as melhores combinações,
+  inclusive como bilhete multidestino. São 4 buscas por rodada, umas 240 por mês.
 
 ## Configuração
-
-### 1. Chaves
-1. **Travelpayouts:**
-   - crie uma conta em https://www.travelpayouts.com
-   - entre no programa **Aviasales**
-   - copie o token em *Tools → API*
-2. **SerpApi (opcional):** crie uma conta em https://serpapi.com. O plano grátis dá algumas centenas de buscas por mês.
-   O plano grátis tem 250 buscas por mês. Com `maxSearchesPerRun: 4` e 2 rodadas por dia são cerca de 240 por mês, dentro do limite.
-3. **Gmail:**
-   - ative a verificação em 2 etapas
-   - crie uma **senha de app** em https://myaccount.google.com/apppasswords
-   - use essa senha no `SMTP_PASS`
-
 ```bash
 cp .env.example .env
-nano .env        # preencha os tokens e o e-mail
+nano .env   # TRAVELPAYOUTS_TOKEN, SERPAPI_KEY e dados do Gmail (senha de app)
 ```
+- **Gmail:** precisa de uma **senha de app**: https://myaccount.google.com/apppasswords (exige verificação em 2 etapas).
+- **Travelpayouts:** o token fica em *Profile → API token*.
+- **SerpApi:** a chave fica em https://serpapi.com/manage-api-key.
 
-### 2. Testar sem chave
+### Testar sem chave
 ```bash
 npm install
-MOCK=1 npm run once     # usa dados falsos; se o SMTP estiver configurado, manda o e-mail de teste
+MOCK=1 FORCE_EMAIL=1 npm run once   # dados falsos; gera data/ultimo-email.html e os 2 PDFs (e envia se o SMTP estiver ok)
 npm test
 ```
-A prévia do último e-mail fica em `data/ultimo-email.html`.
 
 ## Rodar no servidor (Docker)
 ```bash
-git clone https://github.com/raysouzaa/raysouzaa.git
+git clone -b claude/epic-thompson-736e5m https://github.com/raysouzaa/raysouzaa.git
 cd raysouzaa/buscador-passagens
 cp .env.example .env && nano .env
 mkdir -p data && sudo chown 1000:1000 data   # o container roda como usuário "node" (uid 1000)
 docker compose up -d --build
-docker compose logs -f                        # acompanha as buscas
+docker compose logs -f
 ```
-Para alterar destinos, datas ou alertas, edite o `config.json` e rode `docker compose restart`.
+Para atualizar: `git pull && docker compose up -d --build`.
 
-### Sem Docker (cron do sistema)
-```bash
-npm ci --omit=dev
-crontab -e
-# 0 7,19 * * * cd /caminho/buscador-passagens && /usr/bin/node --env-file=.env src/index.js --once >> busca.log 2>&1
-```
+- **Testar o e-mail na hora:** `docker compose exec -e FORCE_EMAIL=1 buscador node src/index.js --once`
+- **Mudar regras** (preço, horas, cidades, países, datas): edite o `config.json` e rode `docker compose restart`.
 
-## Principais opções do `config.json`
+## `config.json`
 | Campo | O que é |
 |---|---|
-| `origins` | Códigos de origem. Padrão `BEL` (Belém). Para comparar com sair de outra cidade, use por exemplo `["BEL", "FOR", "REC", "SAO"]` (o voo doméstico até lá fica por sua conta) |
-| `destinations` | Cidades de destino (códigos IATA de cidade) |
-| `openJaw` | Pares "chega em X, volta de Y" |
-| `window` | Janela de ida e duração mínima e máxima da viagem |
-| `maxFlightHours` | Tempo máximo de cada trecho (ida ou volta), com escalas. Padrão: 16 |
-| `preferredDepartWeekdays` / `preferredReturnWeekdays` | 0 = domingo ... 6 = sábado |
-| `blackouts` | Períodos a evitar (feriados) |
-| `alerts` | Limite de preço, % de queda e tamanho do resumo |
+| `origin` | Cidade de saída (`BEL`) |
+| `entryCities` / `returnCities` | Cidades permitidas para chegar e para voltar |
+| `window` | Janela de ida; `minDays`/`maxDays` = diferença entre ida e volta (19 = viagem de 20 dias) |
+| `rules` | `maxPrice` 4500, `maxHours` 16; `special`: `maxPrice` 3000, `maxHours` 20 |
+| `planner` | Países obrigatórios (`DE`, `IT`), opcionais em ordem de preferência, tamanho do grupo, seguro/dia, câmbio reserva |
+| `alerts` | Quantas opções no e-mail, % de queda para reenviar, dias para o resumo sem novidades |
+| `boost` | Períodos de promoção com busca extra |
 
-> Os preços do Aviasales vêm de cache e podem ter mudado quando você clicar. Sempre confirme no site da
-> companhia. As combinações "2 bilhetes" são compras separadas.
+Os custos por cidade (hostel, apartamento, gastos do dia, bairros seguros, atrações) ficam em `src/cities.js`.
+
+> Preços do Aviasales vêm de buscas recentes e podem ter mudado. "2 bilhetes" são compras separadas. Para o grupo, o
+> preço pode subir ao comprar 4 assentos. Confirme sempre no site da companhia antes de pagar.
