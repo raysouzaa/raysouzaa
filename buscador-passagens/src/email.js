@@ -1,82 +1,131 @@
+// E-mail em HTML "à prova de Gmail": uma coluna (máx. 600px), tabelas e estilos inline, sem CSS externo.
 import nodemailer from 'nodemailer';
 import { fmtBR, weekday, WEEKDAYS_PT } from './dates.js';
 import { CITIES } from './cities.js';
-import { routeSummary, countryNames } from './planner.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const brl = (v) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(v);
-const hrs = (m) => (m == null ? '?' : `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`);
-const stops = (n) => (n == null ? '?' : n === 0 ? 'direto' : `${n} esc.`);
-const dw = (iso) => `${fmtBR(iso)} (${WEEKDAYS_PT[weekday(iso)].slice(0, 3)})`;
+const hrs = (m) => (m == null ? 'duração n/d' : `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`);
+const stops = (n) => (n == null ? '' : n === 0 ? ' · direto' : ` · ${n} escala${n > 1 ? 's' : ''}`);
+const dw = (iso) => `${WEEKDAYS_PT[weekday(iso)]}, ${fmtBR(iso).slice(0, 5)}`;
 const city = (c) => CITIES[c]?.name || c;
 
-const TD = 'style="padding:6px 8px;border-bottom:1px solid #e5e7eb;vertical-align:top"';
+const C = {
+  sky: '#0284c7', skyLight: '#e0f2fe', orange: '#f97316', text: '#0f172a', muted: '#64748b',
+  border: '#e2e8f0', bg: '#f1f5f9', green: '#15803d', greenBg: '#dcfce7', yellow: '#a16207', yellowBg: '#fef9c3',
+};
+const FONT = "font-family:Arial,Helvetica,sans-serif;";
 
-function offerRow(o) {
-  const f = o.fare;
-  const links = [f.link && `<a href="${esc(f.link)}">ver ida</a>`, f.link2 && `<a href="${esc(f.link2)}">ver volta</a>`]
-    .filter(Boolean).join(' · ').replace('ver ida', f.link2 ? 'ver ida' : 'ver voo');
-  return `<tr>
-    <td ${TD}><b style="font-size:16px">${brl(f.price)}</b>${o.isNew ? ' <span style="color:#059669;font-size:11px">NOVO</span>' : ''}<br>
-      <small>${esc(f.kind)} · ${esc(f.source)}${f.priceLevel === 'low' ? ' · <b style="color:#059669">Google: preço baixo</b>' : ''}</small></td>
-    <td ${TD}><b>${esc(city(f.entry))}</b> → … → <b>${esc(city(f.exit))}</b><br>
-      <small>ida ${dw(f.depart)} · ${hrs(f.durationOut)} ${stops(f.stops)}<br>volta ${dw(f.back)} · ${hrs(f.durationBack)} ${stops(f.returnStops)}<br>${esc(f.airline)} · ${f.days + 1} dias</small></td>
-    <td ${TD}><small>${esc(routeSummary(o.plan))}</small></td>
-    <td ${TD} align="right">${brl(o.solo.brl.perPerson)}</td>
-    <td ${TD} align="right">${brl(o.group.brl.perPerson)}<br><small>grupo: ${brl(o.group.brl.group)}</small></td>
-    <td ${TD}>${links}</td>
-  </tr>`;
+const routeLine = (plan) => plan.stops.map((s) => esc(s.name))
+  .join(` <span style="color:${C.orange};font-size:10px">&#9679;</span> `);
+
+function badge(kind, rules) {
+  return kind === 'main'
+    ? `<span style="display:inline-block;padding:4px 10px;border-radius:12px;background:${C.greenBg};color:${C.green};font-size:12px;font-weight:bold">Dentro do limite (até ${brl(rules.maxPrice)})</span>`
+    : `<span style="display:inline-block;padding:4px 10px;border-radius:12px;background:${C.yellowBg};color:${C.yellow};font-size:12px;font-weight:bold">Caso especial: até ${rules.special.maxHours}h por até ${brl(rules.special.maxPrice)}</span>`;
 }
 
-const offersTable = (rows) => `<table cellspacing="0" style="border-collapse:collapse;font-size:13px;width:100%">
-  <tr style="background:#eef2ff;text-align:left"><th ${TD}>Passagem</th><th ${TD}>Entrada / saída e voos</th><th ${TD}>Roteiro provável</th>
-  <th ${TD}>Total sozinha*</th><th ${TD}>Total grupo/pessoa*</th><th ${TD}>Link</th></tr>
-  ${rows.map(offerRow).join('')}</table>`;
-
-function costBlock(title, c, groupSize) {
-  const row = (k, v) => `<tr><td style="padding:3px 8px">${k}</td><td style="padding:3px 8px" align="right">${v}</td></tr>`;
-  return `<td style="vertical-align:top;padding:0 12px 0 0"><b>${title}</b>
-    <table style="font-size:13px">${row('Passagem', brl(c.brl.flight))}
-    ${row('Hospedagem', brl(c.eur.lodging * c.eurBrl))}${row('Comida, transporte local, atrações', brl(c.eur.daily * c.eurBrl))}
-    ${row('Trens/voos entre cidades', brl(c.eur.transport * c.eurBrl))}${c.eur.eta ? row('ETA Reino Unido', brl(c.eur.eta * c.eurBrl)) : ''}
-    ${row('Imprevistos (10%)', brl(c.eur.reserve * c.eurBrl))}${row('Seguro-viagem', brl(c.brl.insurance))}
-    <tr><td style="padding:3px 8px"><b>Total por pessoa</b></td><td style="padding:3px 8px" align="right"><b>${brl(c.brl.perPerson)}</b></td></tr>
-    ${c.profile === 'group' ? `<tr><td style="padding:3px 8px"><b>Total grupo (${groupSize})</b></td><td style="padding:3px 8px" align="right"><b>${brl(c.brl.group)}</b></td></tr>` : ''}
+function costBox(title, subtitle, main, extra) {
+  return `<td width="50%" valign="top" style="padding:4px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.skyLight};border-radius:8px">
+      <tr><td style="${FONT}padding:10px 12px">
+        <div style="font-size:13px;font-weight:bold;color:${C.sky}">${title}</div>
+        <div style="font-size:11px;color:${C.muted};margin-bottom:6px">${subtitle}</div>
+        <div style="font-size:18px;font-weight:bold;color:${C.text}">${main}</div>
+        <div style="font-size:11px;color:${C.muted}">${extra}</div>
+      </td></tr>
     </table></td>`;
 }
 
-export function buildEmail({ main, special, best, cfg, fx, stats, weekdays, boost, statusOnly }) {
+function button(href, label) {
+  if (!href) return '';
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:12px"><tr>
+    <td style="background:${C.orange};border-radius:6px">
+      <a href="${esc(href)}" style="${FONT}display:inline-block;padding:10px 18px;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none">${label}</a>
+    </td></tr></table>`;
+}
+
+function card(o, kind, rules, groupSize) {
+  const f = o.fare;
+  const flightLine = (label, iso, dur, st, from, to) => `<tr>
+    <td style="${FONT}padding:3px 0;font-size:13px;color:${C.muted};width:48px" valign="top">${label}</td>
+    <td style="${FONT}padding:3px 0;font-size:13px;color:${C.text}"><b>${esc(from)} → ${esc(to)}</b><br>
+      <span style="color:${C.muted}">${dw(iso)} · ${hrs(dur)}${stops(st)}</span></td></tr>`;
+  return `<tr><td style="padding:0 16px 16px">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid ${C.border};border-radius:10px">
+    <tr><td style="${FONT}padding:16px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td style="${FONT}font-size:28px;font-weight:bold;color:${C.text}">${brl(f.price)}${o.isNew ? ` <span style="font-size:11px;color:${C.orange};vertical-align:middle">NOVO</span>` : ''}</td>
+      </tr><tr><td style="${FONT}font-size:12px;color:${C.muted};padding-bottom:8px">por pessoa, ida e volta${f.kind !== 'ida e volta' ? ` · ${esc(f.kind)}` : ''} · ${esc(f.airline || f.source)} · ${f.days + 1} dias</td></tr>
+      <tr><td style="padding-bottom:10px">${badge(kind, rules)}</td></tr></table>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+        ${flightLine('Ida', f.depart, f.durationOut, f.stops, 'Belém', city(f.entry))}
+        ${flightLine('Volta', f.back, f.durationBack, f.returnStops, city(f.exit), 'Belém')}
+      </table>
+
+      <div style="${FONT}font-size:12px;color:${C.muted};margin:12px 0 4px">ROTEIRO PROVÁVEL · ${o.plan.nights} noites</div>
+      <div style="${FONT}font-size:14px;color:${C.text};line-height:1.6">${routeLine(o.plan)}</div>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px"><tr>
+        ${costBox('Sozinha', 'hostel feminino', brl(o.solo.brl.perPerson), 'total por pessoa')}
+        ${costBox(`Grupo de ${groupSize}`, 'apartamento/hotel', `${brl(o.group.brl.perPerson)}<span style="font-size:11px;font-weight:normal"> /pessoa</span>`, `total do grupo: ${brl(o.group.brl.group)}`)}
+      </tr></table>
+
+      ${button(f.link, 'Ver passagem')}
+      ${f.link2 ? `<div style="${FONT}font-size:12px;margin-top:6px"><a href="${esc(f.link2)}" style="color:${C.sky}">ver bilhete da volta</a></div>` : ''}
+    </td></tr>
+  </table></td></tr>`;
+}
+
+const sectionTitle = (t) => `<tr><td style="${FONT}padding:8px 16px 10px;font-size:15px;font-weight:bold;color:${C.text}">${t}</td></tr>`;
+
+export function buildEmail({ main, special, best, cfg, fx, stats, boost, statusOnly }) {
   const r = cfg.rules;
   const g = cfg.planner.groupSize;
   const top = main[0] || special[0];
+  const searchDate = new Date().toLocaleString('pt-BR', { timeZone: process.env.TZ || 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'short' });
+
   const subject = statusOnly
-    ? `Passagens Europa (Belém): nada abaixo de ${brl(r.maxPrice)} ainda — melhor ${best ? brl(best.fare.price) : 'sem dados'}`
-    : `✈️ Europa saindo de Belém por ${brl(top.fare.price)} — ${city(top.fare.entry)} / ${city(top.fare.exit)}${special.length && !main.length ? ' (caso especial)' : ''}`;
+    ? `Passagens Europa (Belém): nada até ${brl(r.maxPrice)} ainda — melhor ${best ? brl(best.fare.price) : 'sem dados'}`
+    : `✈️ Belém → Europa por ${brl(top.fare.price)} · ${city(top.fare.entry)} → ${city(top.fare.exit)}${!main.length ? ' (caso especial)' : ''}`;
 
-  const rec = top || best;
-  const html = `<div style="font-family:Arial,sans-serif;color:#1f2937;max-width:960px">
-  <h2 style="color:#1d4ed8;margin-bottom:4px">Buscador de passagens: Belém → Europa</h2>
-  <p style="margin-top:0;color:#6b7280;font-size:13px">Ida entre ${fmtBR(cfg.window.departFrom)} e ${fmtBR(cfg.window.departTo)} ·
-   viagem de ${cfg.window.minDays + 1} a ${cfg.window.maxDays + 1} dias · até ${brl(r.maxPrice)} e ${r.maxHours}h por trecho
-   (ou até ${r.special.maxHours}h se custar até ${brl(r.special.maxPrice)}) · ${stats.total} tarifas analisadas${boost ? ` · <b>modo promoção: ${esc(boost)}</b>` : ''}</p>
+  const sum = top || best;
+  const summary = sum
+    ? `<b>${statusOnly ? 'Mais barata encontrada' : 'Melhor oferta'}: ${brl(sum.fare.price)}</b> · ${esc(city(sum.fare.entry))} → ${esc(city(sum.fare.exit))} · ${fmtBR(sum.fare.depart).slice(0, 5)} a ${fmtBR(sum.fare.back).slice(0, 5)}`
+    : 'Nenhuma tarifa encontrada nesta busca.';
 
-  ${statusOnly ? `<p>Nenhuma passagem dentro dos critérios nesta semana. ${best ? `A mais barata encontrada foi <b>${brl(best.fare.price)}</b> (${esc(city(best.fare.entry))} / ${esc(city(best.fare.exit))}, ${dw(best.fare.depart)} a ${dw(best.fare.back)}).` : ''} Continuo procurando 2x por dia.</p>` : ''}
+  const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:${C.bg}">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg}"><tr><td align="center" style="padding:16px 8px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:${C.bg}">
 
-  ${main.length ? `<h3>Melhores opções (até ${brl(r.maxPrice)}, até ${r.maxHours}h por trecho)</h3>${offersTable(main)}` : ''}
-  ${special.length ? `<h3>Caso especial: voo mais longo (até ${r.special.maxHours}h), mas até ${brl(r.special.maxPrice)}</h3>${offersTable(special)}` : ''}
+  <tr><td style="background:${C.sky};border-radius:12px 12px 0 0;border-bottom:4px solid ${C.orange};padding:20px 16px">
+    <div style="${FONT}font-size:20px;font-weight:bold;color:#ffffff">✈️ Buscador de Passagens – Belém → Europa</div>
+    <div style="${FONT}font-size:12px;color:#e0f2fe;margin-top:4px">Busca de ${esc(searchDate)} · ${stats.total} tarifas analisadas${boost ? ` · modo promoção: ${esc(boost)}` : ''}</div>
+  </td></tr>
 
-  ${rec ? `<h3>Roteiro recomendado (PDFs em anexo)</h3>
-  <p><b>${esc(routeSummary(rec.plan))}</b><br>
-  <small>Entra por ${esc(city(rec.fare.entry))}, volta por ${esc(city(rec.fare.exit))} · ${rec.plan.nights} noites · ${esc(countryNames(rec.plan))}</small></p>
-  <table><tr>${costBlock('Sozinha (hostel feminino)', rec.solo, g)}${costBlock(`Grupo de ${g} (apartamento/hotel)`, rec.group, g)}</tr></table>` : ''}
+  <tr><td style="padding:16px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-left:4px solid ${C.orange};border-radius:6px">
+      <tr><td style="${FONT}padding:12px 14px;font-size:15px;color:${C.text}">${summary}
+      ${statusOnly ? `<div style="font-size:13px;color:${C.muted};margin-top:6px">Ainda nada até ${brl(r.maxPrice)} com até ${r.maxHours}h por trecho. Continuo procurando 2x por dia.</div>` : ''}
+      </td></tr>
+    </table>
+  </td></tr>
 
-  ${weekdays.length ? `<h3>Dia de embarque mais barato (nesta busca)</h3><ol style="font-size:13px">${weekdays.slice(0, 4).map((w) => `<li>${w.day}: média ${brl(w.avg)}, mínimo ${brl(w.min)}</li>`).join('')}</ol>` : ''}
+  ${main.length ? sectionTitle(`Dentro do limite · até ${brl(r.maxPrice)} e ${r.maxHours}h por trecho`) + main.map((o) => card(o, 'main', r, g)).join('') : ''}
+  ${special.length ? sectionTitle(`Caso especial · até ${r.special.maxHours}h por até ${brl(r.special.maxPrice)}`) + special.map((o) => card(o, 'special', r, g)).join('') : ''}
+  ${statusOnly && best ? sectionTitle('Melhor tarifa da semana (acima do limite)') + card(best, 'main', { ...r, maxPrice: best.fare.price }, g) : ''}
 
-  <p style="font-size:12px;color:#6b7280">* Totais por pessoa = passagem + hospedagem + gastos diários + deslocamentos + seguro + 10% de reserva,
-  câmbio €1 = R$ ${fx.rate.toFixed(2)} (${esc(fx.source)}). Estimativas de média temporada.
-  Preços do Aviasales vêm de buscas recentes e podem mudar; "2 bilhetes" são compras separadas. Confirme no site da companhia antes de pagar.
-  Para o grupo, o preço da passagem pode subir ao comprar 4 assentos juntos.</p>
-  </div>`;
+  <tr><td style="${FONT}padding:8px 20px 24px;font-size:11px;line-height:1.5;color:${C.muted}">
+    📎 <b>PDFs do roteiro em anexo</b> (sozinha e grupo de ${g}) para ${sum ? `${esc(city(sum.fare.entry))} → ${esc(city(sum.fare.exit))}` : 'a melhor opção'}.<br>
+    Preços de passagem são estimados a partir de buscas recentes e podem mudar: confirme no site da companhia antes de pagar.
+    "2 bilhetes" são compras separadas; para o grupo, o preço pode subir ao comprar 4 assentos.<br>
+    Totais por pessoa = passagem + hospedagem + comida e transporte + trens/voos internos + seguro + 10% de reserva ·
+    €1 = R$ ${fx.rate.toFixed(2)} (${esc(fx.source)}).
+  </td></tr>
+
+</table></td></tr></table></body></html>`;
   return { subject, html };
 }
 
