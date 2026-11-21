@@ -25,8 +25,9 @@ function enrich(fare, cfg, fx) {
   return { fare, plan, solo: estimateCosts(plan, { ...base, profile: 'solo' }), group: estimateCosts(plan, { ...base, profile: 'group' }) };
 }
 
-export async function runOnce({ useSerpApi = true, boost = null } = {}) {
+export async function runOnce({ serpBudget = null, boost = null } = {}) {
   const cfg = JSON.parse(await readFile(CONFIG_PATH, 'utf8'));
+  const history = await loadJSON(HISTORY_PATH, {});
   const { TRAVELPAYOUTS_TOKEN, SERPAPI_KEY, MOCK } = process.env;
   const started = Date.now();
   let raw = [];
@@ -36,9 +37,12 @@ export async function runOnce({ useSerpApi = true, boost = null } = {}) {
   } else {
     if (!TRAVELPAYOUTS_TOKEN && !SERPAPI_KEY) throw new Error('Configure TRAVELPAYOUTS_TOKEN e/ou SERPAPI_KEY no .env (ou MOCK=1 para testar).');
     if (TRAVELPAYOUTS_TOKEN) raw = await searchAll(cfg, TRAVELPAYOUTS_TOKEN);
-    if (SERPAPI_KEY && useSerpApi) {
+    const budget = serpBudget ?? cfg.serpapi?.maxSearchesPerRun ?? 3;
+    if (SERPAPI_KEY && budget > 0) {
       const cands = dedupe(raw).filter((f) => classify(f, cfg.rules));
-      raw.push(...(await verifyLive(cfg, SERPAPI_KEY, cands)));
+      const offset = history.serpOffset ?? 0;
+      raw.push(...(await verifyLive(cfg, SERPAPI_KEY, cands, { budget, offset })));
+      history.serpOffset = offset + budget;
     }
   }
 
@@ -47,7 +51,6 @@ export async function runOnce({ useSerpApi = true, boost = null } = {}) {
   const n = cfg.alerts.topN ?? 8;
   const mainFares = onePerRoute(all.filter((f) => classify(f, cfg.rules) === 'main'), n);
   const specialFares = onePerRoute(all.filter((f) => classify(f, cfg.rules) === 'special'), Math.ceil(n / 2));
-  const history = await loadJSON(HISTORY_PATH, {});
   const fresh = new Set(newOrCheaper([...mainFares, ...specialFares], history, cfg.alerts.renotifyDropPercent));
   const mk = (f) => { const e = enrich(f, cfg, fx); return e && { ...e, isNew: fresh.has(f) }; };
   const main = mainFares.map(mk).filter(Boolean);
@@ -112,7 +115,7 @@ if (isMain) {
       console.log(`[cron] busca extra em promoções "${cfg.boost.schedule}": ${cfg.boost.periods.map((p) => `${p.label} (${p.from}..${p.to})`).join('; ')}`);
       cron.schedule(cfg.boost.schedule, () => {
         const b = activeBoost(cfg);
-        if (b) safe({ useSerpApi: cfg.boost.useSerpApi ?? false, boost: b });
+        if (b) safe({ serpBudget: b.serpapiSearches ?? 0, boost: b });
       }, { timezone: tz });
     }
   }

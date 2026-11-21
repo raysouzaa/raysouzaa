@@ -1,10 +1,8 @@
 {
   "currency": "BRL",
   "origin": "BEL",
-
   "entryCities": ["LIS", "OPO", "PAR", "ROM", "MIL", "FRA", "MUC", "BER"],
   "returnCities": ["LIS", "OPO", "MAD", "BCN", "PAR", "ROM", "MIL", "FRA", "MUC", "BER", "LON"],
-
   "window": {
     "departFrom": "2027-04-01",
     "departTo": "2027-05-10",
@@ -18,13 +16,14 @@
     { "from": "2027-04-16", "to": "2027-04-21", "reason": "Feriado de Tiradentes (21/04, quarta)" },
     { "from": "2027-04-29", "to": "2027-05-02", "reason": "Feriado de 1º de maio (sábado)" }
   ],
-
   "rules": {
     "maxPrice": 4500,
     "maxHours": 16,
-    "special": { "maxPrice": 3000, "maxHours": 20 }
+    "special": {
+      "maxPrice": 3000,
+      "maxHours": 20
+    }
   },
-
   "planner": {
     "mandatoryCountries": ["DE", "IT"],
     "optionalCountries": ["FR", "ES", "UK"],
@@ -32,26 +31,33 @@
     "insuranceBrlPerDay": 15,
     "eurBrlFallback": 6.3
   },
-
   "alerts": {
     "topN": 8,
     "renotifyDropPercent": 3,
     "heartbeatDays": 7
   },
-
   "serpapi": {
-    "maxSearchesPerRun": 4,
-    "fallbackDestinations": ["LIS", "ROM"]
+    "maxSearchesPerRun": 3,
+    "exploreMinDays": 14,
+    "exploreRoutes": [
+      ["LIS", "LIS"],
+      ["LIS", "ROM"],
+      ["PAR", "ROM"],
+      ["ROM", "ROM"],
+      ["LIS", "PAR"],
+      ["FRA", "ROM"],
+      ["MUC", "LIS"],
+      ["PAR", "PAR"],
+      ["ROM", "LIS"],
+      ["LIS", "MAD"]
+    ]
   },
-
   "schedule": "0 7,19 * * *",
-
   "boost": {
-    "schedule": "30 */2 * * *",
-    "useSerpApi": false,
+    "schedule": "30 */4 * * *",
     "periods": [
-      { "from": "2026-11-26", "to": "2026-12-02", "label": "Black Friday, Cyber Monday e Travel Tuesday" },
-      { "from": "2027-01-04", "to": "2027-01-15", "label": "Liquidações de início de ano" }
+      { "from": "2026-11-26", "to": "2026-12-02", "label": "Black Friday, Cyber Monday e Travel Tuesday", "serpapiSearches": 2 },
+      { "from": "2027-01-04", "to": "2027-01-15", "label": "Liquidações de início de ano", "serpapiSearches": 0 }
     ]
   }
 }

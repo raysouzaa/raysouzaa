@@ -38,8 +38,8 @@ O guia de viagem (quando comprar, por onde entrar, custos) está em [docs/ROTEIR
 ## Quando ele manda e-mail
 - **Horários:** às **07h e às 19h** (horário de Brasília).
 - **Promoções:** durante a **Black Friday, a Cyber Monday e a Travel Tuesday** (26/11 a 02/12/2026) e nas
-  liquidações de janeiro (04 a 15/01/2027), busca também **a cada 2 horas**. Essas buscas extras usam só o Aviasales,
-  para não gastar a cota do SerpApi.
+  liquidações de janeiro (04 a 15/01/2027), busca também **a cada 4 horas**, com 2 buscas extras no Google Flights na Black Friday (só Aviasales em janeiro),
+  para caber na cota grátis do SerpApi.
 - **Quando envia:** só quando aparece uma passagem nova dentro das regras, ou quando uma já enviada fica 3% mais barata.
   Assim você não recebe o mesmo e-mail duas vezes por dia.
 - **Sem novidade:** se passar 7 dias sem nada dentro das regras, manda um resumo com a melhor tarifa encontrada.
@@ -47,7 +47,7 @@ O guia de viagem (quando comprar, por onde entrar, custos) está em [docs/ROTEIR
 ## Fontes de preço
 - **Aviasales / Travelpayouts** (grátis): preços de buscas recentes. Combina **ida para uma cidade e volta de outra**.
 - **Google Flights via SerpApi** (opcional, 250 buscas/mês grátis): confere **ao vivo** as melhores combinações,
-  inclusive como bilhete multidestino. São 4 buscas por rodada, umas 240 por mês.
+  inclusive como bilhete multidestino. São 3 buscas por rodada (metade confere as melhores do Aviasales, metade explora rotas e datas em rodízio), cerca de 180 a 210 por mês.
 
 ## Configuração
 ```bash

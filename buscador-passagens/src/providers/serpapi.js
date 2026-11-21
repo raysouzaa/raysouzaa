@@ -1,7 +1,7 @@
 // Google Flights via SerpApi: preço AO VIVO. Cota pequena (plano grátis: 250/mês), então é usado para
 // conferir as melhores combinações achadas no Aviasales, ou, sem elas, testar algumas datas.
 // Doc: https://serpapi.com/google-flights-api
-import { candidatePairs, spreadPick, diffDays } from '../dates.js';
+import { candidatePairs, diffDays } from '../dates.js';
 
 const BASE = 'https://serpapi.com/search.json';
 const AIRPORT = { SAO: 'GRU', RIO: 'GIG', PAR: 'CDG', ROM: 'FCO', MIL: 'MXP', LON: 'LHR' };
@@ -53,21 +53,26 @@ async function liveFare(cfg, key, { entry, exit, depart, back }) {
 }
 
 /** Confere ao vivo as melhores combinações (uma por par entrada/saída). */
-export async function verifyLive(cfg, key, candidates, log = console) {
-  const budget = cfg.serpapi?.maxSearchesPerRun ?? 4;
+export async function verifyLive(cfg, key, candidates, { budget = cfg.serpapi?.maxSearchesPerRun ?? 3, offset = 0 } = {}, log = console) {
+  if (budget <= 0) return [];
   const seen = new Set();
   const picks = [];
   for (const c of candidates) {
     const k = `${c.entry}-${c.exit}`;
     if (seen.has(k)) continue;
     seen.add(k); picks.push(c);
-    if (picks.length >= budget) break;
+    if (picks.length >= Math.ceil(budget / 2)) break; // metade para conferir, metade para explorar
   }
-  // Sem candidatos do Aviasales: testa algumas datas nas cidades de fallback.
-  if (!picks.length) {
-    const dests = cfg.serpapi?.fallbackDestinations ?? ['LIS'];
-    const pairs = spreadPick(candidatePairs(cfg), Math.max(1, Math.floor(budget / dests.length)));
-    for (const p of pairs) for (const d of dests) picks.push({ entry: d, exit: d, depart: p.depart, back: p.ret });
+  // Exploração em rodízio: a cada rodada testa outras rotas e outras datas, cobrindo a janela ao longo dos dias.
+  const routes = cfg.serpapi?.exploreRoutes ?? [['LIS', 'LIS']];
+  const pairs = candidatePairs(cfg).filter((p) => p.days >= (cfg.serpapi?.exploreMinDays ?? 14));
+  if (pairs.length) {
+    for (let i = 0; picks.length < budget && i < budget * 3; i++) {
+      const k = offset + i;
+      const [entry, exit] = routes[k % routes.length];
+      const p = pairs[(k * 7919) % pairs.length]; // passo primo espalha as datas
+      picks.push({ entry, exit, depart: p.depart, back: p.ret });
+    }
   }
   const out = [];
   for (const p of picks.slice(0, budget)) {
