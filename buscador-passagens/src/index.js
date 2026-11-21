@@ -3,7 +3,7 @@ import cron from 'node-cron';
 import { searchRoundTrips, searchOpenJaw } from './providers/travelpayouts.js';
 import { searchLive } from './providers/serpapi.js';
 import { searchMock } from './providers/mock.js';
-import { dedupe, byWeekday, bestByRoute, findDeals, updateHistory } from './analyze.js';
+import { filterByDuration, dedupe, byWeekday, bestByRoute, findDeals, updateHistory } from './analyze.js';
 import { buildEmail, sendEmail } from './email.js';
 import { loadJSON, saveJSON } from './storage.js';
 
@@ -31,7 +31,7 @@ export async function runOnce() {
     raw = (await Promise.all(jobs)).flat();
   }
 
-  const all = dedupe(raw);
+  const all = dedupe(filterByDuration(raw, cfg.maxFlightHours));
   const routes = bestByRoute(all);
   const history = await loadJSON(HISTORY_PATH, {});
   const deals = findDeals(routes, history, cfg.alerts);

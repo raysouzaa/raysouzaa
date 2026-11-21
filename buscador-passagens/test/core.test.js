@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { candidatePairs, monthsBetween, weekday, diffDays, spreadPick } from '../src/dates.js';
-import { dedupe, byWeekday, findDeals, bestByRoute, updateHistory } from '../src/analyze.js';
+import { filterByDuration, dedupe, byWeekday, findDeals, bestByRoute, updateHistory } from '../src/analyze.js';
 
 const cfg = {
   window: { departFrom: '2027-04-01', departTo: '2027-05-10', minDays: 12, maxDays: 15 },
@@ -26,6 +26,12 @@ test('meses e amostragem', () => {
   assert.deepEqual(monthsBetween('2027-04-01', '2027-05-25'), ['2027-04', '2027-05']);
   assert.deepEqual(monthsBetween('2026-12-10', '2027-01-02'), ['2026-12', '2027-01']);
   assert.equal(spreadPick([1, 2, 3, 4, 5, 6, 7, 8, 9], 3).length, 3);
+});
+
+test('filtro de duração máxima', () => {
+  const rs = [{ durationOut: 480, durationBack: 500 }, { durationOut: 1000, durationBack: 500 }, { durationOut: null, durationBack: 900 }];
+  assert.equal(filterByDuration(rs, 16).length, 2);
+  assert.equal(filterByDuration(rs, null).length, 3);
 });
 
 test('análise: dedupe, dia mais barato, alertas e histórico', () => {

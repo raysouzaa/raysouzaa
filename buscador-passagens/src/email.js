@@ -3,6 +3,7 @@ import { fmtBR, weekday, WEEKDAYS_PT } from './dates.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const money = (v, cur) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: cur, maximumFractionDigits: 0 }).format(v);
+const hrs = (m) => (m == null ? '?' : `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`);
 const stops = (n) => (n == null ? '?' : n === 0 ? 'direto' : `${n} escala${n > 1 ? 's' : ''}`);
 
 function row(r) {
@@ -15,7 +16,7 @@ function row(r) {
     <td style="padding:6px 8px"><b>${esc(r.destName || r.destination)}</b><br><small>${route}</small></td>
     <td style="padding:6px 8px">${fmtBR(r.depart)} (${WEEKDAYS_PT[weekday(r.depart)].slice(0, 3)})<br>${fmtBR(r.ret)} (${WEEKDAYS_PT[weekday(r.ret)].slice(0, 3)})</td>
     <td style="padding:6px 8px">${r.days} dias</td>
-    <td style="padding:6px 8px">${esc(r.airline)}<br><small>${stops(r.stops)} / ${stops(r.returnStops)}</small></td>
+    <td style="padding:6px 8px">${esc(r.airline)}<br><small>ida ${hrs(r.durationOut)} (${stops(r.stops)}) · volta ${hrs(r.durationBack)} (${stops(r.returnStops)})</small></td>
     <td style="padding:6px 8px;white-space:nowrap"><b>${money(r.price, r.currency)}</b>${r.reasons ? `<br><small style="color:#0a7">${esc(r.reasons.join('; '))}</small>` : ''}</td>
     <td style="padding:6px 8px"><small>${esc(r.source)}</small><br>${links}</td>
   </tr>`;
@@ -35,7 +36,7 @@ export function buildEmail({ deals, top, weekdays, cfg, stats }) {
 
   const html = `<div style="font-family:Arial,sans-serif;color:#222">
     <h2>Buscador de passagens — Brasil → Europa</h2>
-    <p>Janela: ida de ${fmtBR(cfg.window.departFrom)} a ${fmtBR(cfg.window.departTo)}, ${cfg.window.minDays}–${cfg.window.maxDays} dias.
+    <p>Janela: ida de ${fmtBR(cfg.window.departFrom)} a ${fmtBR(cfg.window.departTo)}, ${cfg.window.minDays}–${cfg.window.maxDays} dias${cfg.maxFlightHours ? `, no máximo ${cfg.maxFlightHours}h de viagem em cada trecho` : ''}.
        ${stats.total} tarifas analisadas.</p>
     ${deals.length ? `<h3>🔥 Ofertas que bateram o alerta</h3>${table(deals)}` : '<p>Nenhuma tarifa bateu o alerta nesta rodada.</p>'}
     <h3>Top ${top.length} mais baratas</h3>${table(top)}

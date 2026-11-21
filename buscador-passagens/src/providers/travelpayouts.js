@@ -30,7 +30,8 @@ function normalize(item, currency, extra = {}) {
     airline: item.airline || '',
     stops: item.transfers ?? null,
     returnStops: item.return_transfers ?? null,
-    durationMin: item.duration ?? null,
+    durationOut: item.duration_to ?? null,
+    durationBack: item.duration_back ?? null,
     link: item.link ? `https://www.aviasales.com${item.link}` : null,
     ...extra,
   };
@@ -82,6 +83,7 @@ export async function searchOneWay(origin, destination, month, cfg, token) {
     price: Number(it.price),
     airline: it.airline || '',
     stops: it.transfers ?? null,
+    duration: it.duration_to ?? it.duration ?? null,
     link: it.link ? `https://www.aviasales.com${it.link}` : null,
   }));
 }
@@ -108,7 +110,7 @@ export async function searchOpenJaw(cfg, token) {
               destName: oj.label, depart: o.date, ret: b.date, days,
               price: o.price + b.price, currency: cfg.currency,
               airline: [o.airline, b.airline].filter(Boolean).join(' / '),
-              stops: o.stops, returnStops: b.stops, link: o.link, link2: b.link, openJaw: true,
+              stops: o.stops, returnStops: b.stops, durationOut: o.duration, durationBack: b.duration, link: o.link, link2: b.link, openJaw: true,
             });
           }
         }

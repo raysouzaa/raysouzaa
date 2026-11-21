@@ -3,6 +3,14 @@ import { weekday, WEEKDAYS_PT } from './dates.js';
 
 const key = (r) => `${r.origin}-${r.destination}-${r.returnFrom}`;
 
+/** Remove tarifas cuja ida ou volta (tempo total, com escalas) passa do limite. Duração desconhecida é mantida. */
+export function filterByDuration(results, maxHours) {
+  if (!maxHours) return results;
+  const max = maxHours * 60;
+  const ok = (m) => m == null || m <= max;
+  return results.filter((r) => ok(r.durationOut) && ok(r.durationBack));
+}
+
 export function dedupe(results) {
   const best = new Map();
   for (const r of results) {

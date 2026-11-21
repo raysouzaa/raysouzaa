@@ -31,6 +31,7 @@
     { "from": "2027-04-16", "to": "2027-04-21", "reason": "Feriado de Tiradentes (21/04, quarta)" },
     { "from": "2027-04-29", "to": "2027-05-02", "reason": "Feriado de 1º de maio (sábado)" }
   ],
+  "maxFlightHours": 16,
   "alerts": {
     "priceThreshold": 4500,
     "dropPercent": 8,

@@ -13,6 +13,7 @@ export function searchMock(cfg) {
         depart: p.depart, ret: p.ret, days: p.days,
         price: Math.round((base[d.code] || 5000) * (0.8 + rnd() * 0.5)),
         currency: cfg.currency, airline: 'TP', stops: d.code === 'LIS' ? 0 : 1, link: 'https://example.com',
+        durationOut: d.code === 'LIS' ? 500 : Math.round(600 + rnd() * 900), durationBack: d.code === 'LIS' ? 540 : Math.round(600 + rnd() * 900),
       });
     }
   }

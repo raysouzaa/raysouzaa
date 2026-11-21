@@ -47,6 +47,7 @@ export async function searchLive(cfg, key) {
         const json = await search({
           type: 1, departure_id: ap(origin), arrival_id: ap(r.out),
           outbound_date: p.depart, return_date: p.ret, currency: cfg.currency,
+          ...(cfg.maxFlightHours ? { max_duration: cfg.maxFlightHours * 60 } : {}),
         }, key);
         const f = bestOf(json);
         if (!f) continue;
@@ -56,7 +57,7 @@ export async function searchLive(cfg, key) {
           destName: r.label, depart: p.depart, ret: p.ret, days: p.days,
           price: f.price, currency: cfg.currency,
           airline: [...new Set((f.flights || []).map((x) => x.airline))].join(' / '),
-          stops: Math.max(0, (f.flights?.length || 1) - 1), durationMin: f.total_duration ?? null,
+          stops: Math.max(0, (f.flights?.length || 1) - 1), durationOut: f.total_duration ?? null, durationBack: null,
           priceLevel: json.price_insights?.price_level || null,
           typicalRange: json.price_insights?.typical_price_range || null,
           link: json.search_metadata?.google_flights_url || null,

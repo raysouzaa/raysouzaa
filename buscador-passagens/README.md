@@ -11,6 +11,7 @@ O guia de viagem, com quando comprar, por onde entrar e os roteiros, está em [d
   - considera ida entre 01/04 e 10/05/2027, com viagens de 12 a 15 dias
   - prioriza ida segunda, terça, quarta ou sexta e volta de segunda a sexta (o voo direto da TAP saindo de Belém não opera todo dia)
   - pula os feriados: Páscoa, Tiradentes e 1º de maio
+  - descarta voos com mais de **16h de viagem** na ida ou na volta, contando as escalas (`maxFlightHours`)
 - **Fontes de preço:**
   - **Aviasales / Travelpayouts** (gratuita): preços em cache das buscas recentes, cobrindo todos os destinos e todas as datas
   - **Google Flights via SerpApi** (opcional, cota grátis pequena): preço ao vivo em algumas datas, com o indicador
@@ -75,6 +76,7 @@ crontab -e
 | `destinations` | Cidades de destino (códigos IATA de cidade) |
 | `openJaw` | Pares "chega em X, volta de Y" |
 | `window` | Janela de ida e duração mínima e máxima da viagem |
+| `maxFlightHours` | Tempo máximo de cada trecho (ida ou volta), com escalas. Padrão: 16 |
 | `preferredDepartWeekdays` / `preferredReturnWeekdays` | 0 = domingo ... 6 = sábado |
 | `blackouts` | Períodos a evitar (feriados) |
 | `alerts` | Limite de preço, % de queda e tamanho do resumo |
