@@ -1,4 +1,4 @@
-# Europa em abril de 2027: estratégia de passagem e roteiro (até 15 dias, 3 a 4 países)
+# Europa em abril de 2027 saindo de Belém: estratégia de passagem e roteiro (até 20 dias)
 
 > Pesquisa feita em 18/11/2026. Preços e regras mudam, então confirme antes de comprar.
 > Os custos diários são **estimativas** de orçamento médio para 1 pessoa (hotel 3★ ou quarto
@@ -19,8 +19,8 @@
   - a TAP é a única com voo direto Belém–Lisboa, de cerca de 8h. As outras rotas fazem escala no Brasil ou em outro país
   - a página de abril de 2027 da TAP mostrava Belém–Lisboa a partir de **cerca de R$ 5.980**. Belém–Paris (via Lisboa)
     aparecia a partir de R$ 5.482 para outras datas, às vezes mais barato que ir só até Lisboa
-  - em promoção, Belém–Europa costuma ficar entre **R$ 4.000 e R$ 5.000** ida e volta. O alerta do buscador está em
-    **R$ 4.500**. Acima de R$ 5.500, espere a Black Friday
+  - em promoção, Belém–Europa costuma ficar entre **R$ 4.000 e R$ 5.000** ida e volta. O **teto é R$ 4.500**,
+    com até 16h por trecho. **Caso especial:** até 20h por trecho, desde que custe até **R$ 3.000**
   - **com escala** (por Fortaleza, Recife, São Paulo ou Miami) o preço pode cair bastante, segundo o Momondo, em troca de mais horas de viagem
 
 ## 2. Em quais datas voar
@@ -37,22 +37,20 @@
   - **ida entre 27/04 e 05/05**
   - abril e o começo de maio são média ou baixa temporada na Europa, com clima agradável (15 a 22 °C) e hotel mais barato que no verão
 
-## 3. Por onde entrar: Portugal (Lisboa ou Porto)
+## 3. Por onde entrar (sem burocracia)
 
-| | Lisboa / Porto | Madri |
+| País | Entrada? | Por quê |
 |---|---|---|
-| Voos diretos do Brasil | Muitos: TAP de várias capitais, além de LATAM e Azul | Iberia, LATAM e Air Europa, quase só de SP e Rio |
-| Idioma na imigração | Português | Espanhol |
-| Fama da imigração com brasileiros | Mais tranquila | Mais rigorosa: já houve muitos casos de inadmissão |
-| Meios financeiros exigidos | cerca de €75 por entrada + €40 por dia | cerca de €120 por dia (valor reajustado todo ano) |
-| Custo de vida durante a viagem | Um dos mais baratos da Europa Ocidental | Médio |
+| **Portugal** (Lisboa, Porto) | ✅ melhor opção | Único voo direto de Belém (TAP, ~8h), imigração em português e tranquila |
+| **França** (Paris), **Itália** (Roma, Milão), **Alemanha** (Frankfurt, Munique, Berlim) | ✅ | Imigração Schengen comum, chegam com 1 conexão (geralmente em Lisboa) |
+| **Espanha** (Madri, Barcelona) | ⚠️ só para **voltar** | Imigração conhecida por ser rígida com brasileiros (exige ~€120/dia e mais comprovantes) |
+| **Inglaterra** (Londres) | ⚠️ só para **voltar** | Fora do Schengen: exige **ETA (£20)** antes de embarcar |
 
-**Saindo de Belém, Lisboa é ainda mais vantajosa:** é o único voo direto (TAP), sem escala no Brasil e com a imigração
-feita em português. Para voltar de outra cidade (Roma ou Paris), a TAP faz Roma–Lisboa–Belém num bilhete só, e o buscador
-procura essas combinações.
+A imigração Schengen é feita no **1º país Schengen em que você pousa**. Se o voo para Roma conectar em Lisboa, você
+passa pela imigração em Lisboa.
 
-**Vale entrar por Portugal**, mesmo que a passagem custe R$ 200–300 a mais que para Madri. A imigração é feita
-no 1º país Schengen em que você pousa. Se fizer escala em Madri ou Paris a caminho de outro país, é lá que você passa.
+**Regra de Portugal no roteiro:** Portugal só entra no roteiro se a passagem chegar ou voltar por Lisboa ou Porto.
+Se a opção mais barata não passar por lá, o roteiro não inclui Portugal.
 
 ### Documentos (brasileiros, Schengen)
 - **Visto:** não precisa. A estadia máxima é de 90 dias em qualquer período de 180 dias.
@@ -61,6 +59,8 @@ no 1º país Schengen em que você pousa. Se fizer escala em Madri ou Paris a ca
   Reserve tempo extra nas conexões.
 - **ETIAS:** **ainda não é exigido** e a previsão é que comece em 2027, ainda sem data oficial. Confira em
   travel-europe.europa.eu/etias uns 2 meses antes da viagem. Se já estiver valendo, a taxa é de cerca de €20 e o pedido é online.
+- **Inglaterra:** fica fora do Schengen e exige o **ETA** (£20, pedido pelo app oficial "UK ETA" ou pelo site gov.uk,
+  aprovado em cerca de 3 dias). Cuidado com sites falsos que cobram mais caro.
 - **Leve impresso:**
   - a passagem de volta
   - as reservas de todas as hospedagens
@@ -68,40 +68,45 @@ no 1º país Schengen em que você pousa. Se fizer escala em Madri ou Paris a ca
   - o **seguro-viagem com cobertura mínima de €30 mil**
   - um comprovante de dinheiro (cartão e extrato)
 
-## 4. Roteiros sugeridos (14 noites, ida e volta por cidades diferentes)
+## 4. Roteiros (montados automaticamente para cada passagem)
 
-Comprar **ida para Lisboa e volta de outra cidade** (open-jaw) evita voltar ao ponto de partida e economiza um dia
-e o voo interno. O buscador já pesquisa essas combinações.
+O buscador monta o roteiro de cada passagem que encontra:
+- **Sempre inclui Alemanha e Itália.**
+- Completa com **França**, **Espanha** e **Inglaterra**, nessa ordem, conforme os dias. Viagens de até 12 noites
+  têm 3 países, de até 17 noites têm 4 países, e mais que isso têm 5 países.
+- **Começa na cidade de chegada e termina na de volta**, na ordem com menos deslocamento.
+- **Divide as noites** com cerca de 3 por cidade. A Itália ganha mais dias por ter Roma, Florença e Veneza.
+- O e-mail traz a **rota provável de cada passagem** e os **2 PDFs** (sozinha e grupo de 4) da melhor opção.
 
-### Opção A: "Ibéria + Itália + França" (4 países, clássica)
-| Noites | Cidade | Como chegar | Custo/dia (est.) |
+Exemplos de rota que ele gera:
+
+| Entrada / volta | Noites | Rota |
+|---|---|---|
+| Lisboa / Roma | 18 | Lisboa (3) > Madri (3) > Paris (3) > Munique (4) > Florença (3) > Roma (2) |
+| Paris / Roma | 12 | Paris (3) > Munique (4) > Florença (3) > Roma (2) |
+| Frankfurt / Lisboa | 17 | Frankfurt (1) > Munique (3) > Roma (3) > Florença (3) > Paris (3) > Lisboa (4) |
+| Paris / Londres | 17 | Paris (4) > Florença (3) > Roma (3) > Munique (4) > Londres (3) |
+
+### Custo médio por cidade (estimativa, € por pessoa)
+| Cidade | Hostel feminino/noite | Apartamento p/ 4 (por pessoa) | Gastos do dia |
 |---|---|---|---|
-| 3 | Lisboa (+ Sintra) | Voo do Brasil | €80–110 |
-| 3 | Madri (+ Toledo) | Voo low-cost de 1h15 (€40–80) | €90–130 |
-| 3 | Roma | Voo low-cost de 2h30 (€40–90) | €100–150 |
-| 2 | Florença | Trem rápido de 1h30 (€20–45) | €100–150 |
-| 3 | Paris | Voo de 2h (€50–100) ou trem noturno | €120–170 |
-**Volta de Paris.** O total em terra fica em torno de €1.500–2.000, mais as passagens internas.
+| Lisboa | 35 | 38 | 45 |
+| Madri | 35 | 40 | 50 |
+| Barcelona | 45 | 49 | 55 |
+| Paris | 55 | 58 | 60 |
+| Londres | 60 | 68 | 70 |
+| Berlim | 35 | 38 | 50 |
+| Munique | 50 | 50 | 55 |
+| Veneza | 50 | 50 | 55 |
+| Florença | 45 | 45 | 55 |
+| Roma | 45 | 48 | 55 |
 
-### Opção B: "Mais barata" (3 países, ritmo tranquilo)
-| Noites | Cidade | Como chegar | Custo/dia (est.) |
-|---|---|---|---|
-| 3 | Lisboa | Voo do Brasil | €80–110 |
-| 2 | Porto | Trem de 3h (€25–35) | €70–100 |
-| 2 | Sevilha | Voo de 1h (€30–70) | €80–110 |
-| 3 | Madri | Trem AVE de 2h30 (€20–50) | €90–130 |
-| 4 | Roma | Voo low-cost (€40–90) | €100–150 |
-**Volta de Roma ou de Madri.** O total em terra fica em torno de €1.300–1.700.
+Os gastos do dia incluem comida simples, transporte local e uma atração. Para o grupo, a estimativa considera 15% a menos,
+porque o grupo cozinha algumas refeições no apartamento.
 
-### Opção C: "Leste europeu" (4 países, hospedagem mais barata)
-| Noites | Cidade | Como chegar | Custo/dia (est.) |
-|---|---|---|---|
-| 3 | Lisboa | Voo do Brasil | €80–110 |
-| 4 | Budapeste (Hungria) | Voo low-cost (€50–120) | €65–95 |
-| 2 | Viena (Áustria) | Trem de 2h40 (€15–40) | €100–140 |
-| 4 | Praga (Tchéquia) | Trem de 4h (€15–40) | €65–95 |
-| 1 | Lisboa | Voo low-cost de volta (€60–130) | – |
-**Volta de Lisboa**, onde o bilhete de ida e volta costuma ser o mais barato. O total em terra fica em torno de €1.200–1.600.
+**Total por pessoa**, sem a passagem, para 15 a 18 noites: cerca de **€1.900 a €2.400**, ou **R$ 12.000 a 15.000**.
+Esse valor soma hospedagem, comida, trens e voos internos, seguro e 10% para imprevistos. No grupo de 4 o valor por pessoa
+fica parecido, com quarto privativo em vez de dormitório.
 
 ### Dicas para economizar na Europa
 - **Voos internos:** Ryanair, easyJet, Vueling e Wizz Air. Compre com 1 a 2 meses de antecedência e só com bagagem de mão.
@@ -109,11 +114,12 @@ e o voo interno. O buscador já pesquisa essas combinações.
   Comprados com antecedência, saem baratos.
 - **Hospedagem:** reserve com cancelamento grátis assim que comprar a passagem. Serve também como comprovante na imigração.
 - **Cartão:** use um cartão multimoeda (Wise, Nomad, C6 Global ou similar) em euro para fugir do IOF alto e do spread do cartão.
-- **Celular:** contrate um eSIM europeu para os 15 dias, que costuma custar €10–20.
+- **Celular:** contrate um eSIM europeu para a viagem toda, que costuma custar €10–25.
 
 ## 5. Fontes
 - [TAP Belém–Lisboa](https://www.flytap.com/pt_br/passagens-de-belem-para-lisboa) · [TAP Belém–Paris](https://www.flytap.com/pt_br/passagens-de-belem-para-paris) · [Momondo Belém–Europa](https://www.momondo.com.br/passagem/belem/europa) · [Diário do Turismo: voos Belém–Lisboa](https://diariodoturismo.com.br/belem-pa-ganha-terceira-opcao-de-voo-para-lisboa/)
 - [Tarifas TAP abril/2027](https://www.flytap.com/pt_br/passagens-abril) · [TAP GRU–Madri](https://www.flytap.com/pt_br/passagens-de-sao-paulo-para-madri)
 - [Eurodicas: passagem barata para a Europa](https://turismo.eurodicas.com.br/passagem-barata-para-europa/)
 - [Melhores Destinos: adiamento do ETIAS para 2027](https://www.melhoresdestinos.com.br/adiamento-etias-2027.html) · [Seu Dinheiro: ETIAS](https://www.seudinheiro.com/2026/lifestyle/etias-sera-adiado-para-2027-veja-o-que-muda-para-brasileiros-que-vao-a-europa-sama/) · [InsideFlyer](https://www.insideflyer.com/posts/etias-launch-delayed-again-now-expected-in-2027/)
+- [UK ETA: Mercado & Eventos](https://www.mercadoeeventos.com.br/?p=699176) · [Passageiro de Primeira: valor do ETA](https://passageirodeprimeira.com/autorizacao-viagem-reino-unido-valor)
 - [Mercado & Eventos: estudo Expedia sobre o melhor dia para comprar](https://www.mercadoeeventos.com.br/?p=732351) · [Santander: melhor dia para comprar passagem](https://www.santander.com.br/blog/esfera/melhor-dia-para-comprar-passagem) · [Itatiaia: dias mais baratos (KAYAK)](https://www.itatiaia.com.br/turismo/passagens-aereas-saiba-quais-dias-da-semana-costumam-ter-tarifas-mais-baratas/)
