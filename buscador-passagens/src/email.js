@@ -129,7 +129,24 @@ export function buildEmail({ main, special, best, cfg, fx, stats, boost, statusO
   return { subject, html };
 }
 
+/** Envio por HTTPS (porta 443) via Resend, para servidores que bloqueiam SMTP. */
+async function sendViaResend({ subject, html, attachments }) {
+  const { RESEND_API_KEY, RESEND_FROM = 'Buscador de Passagens <onboarding@resend.dev>', MAIL_TO } = process.env;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: RESEND_FROM, to: MAIL_TO.split(',').map((x) => x.trim()), subject, html,
+      attachments: attachments.map((a) => ({ filename: a.filename, content: Buffer.from(a.content).toString('base64') })),
+    }),
+  });
+  if (!res.ok) throw new Error(`Resend HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  console.log(`[email] enviado via Resend para ${MAIL_TO}: ${subject}`);
+  return true;
+}
+
 export async function sendEmail({ subject, html, attachments = [] }) {
+  if (process.env.RESEND_API_KEY && process.env.MAIL_TO) return sendViaResend({ subject, html, attachments });
   const { SMTP_HOST, SMTP_PORT = '465', SMTP_USER, SMTP_PASS, MAIL_FROM, MAIL_TO } = process.env;
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !MAIL_TO) {
     console.warn('[email] SMTP não configurado — e-mail não enviado. Assunto:', subject);
@@ -137,6 +154,7 @@ export async function sendEmail({ subject, html, attachments = [] }) {
   }
   const transport = nodemailer.createTransport({
     host: SMTP_HOST, port: +SMTP_PORT, secure: +SMTP_PORT === 465, auth: { user: SMTP_USER, pass: SMTP_PASS },
+    connectionTimeout: 20_000, family: 4,
   });
   await transport.sendMail({ from: MAIL_FROM || SMTP_USER, to: MAIL_TO, subject, html, attachments });
   console.log(`[email] enviado para ${MAIL_TO}: ${subject}`);

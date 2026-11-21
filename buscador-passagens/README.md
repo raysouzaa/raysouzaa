@@ -57,6 +57,13 @@ nano .env   # TRAVELPAYOUTS_TOKEN, SERPAPI_KEY e dados do Gmail (senha de app)
 - **Gmail:** precisa de uma **senha de app**: https://myaccount.google.com/apppasswords (exige verificação em 2 etapas).
 - **Travelpayouts:** o token fica em *Profile → API token*.
 - **SerpApi:** a chave fica em https://serpapi.com/manage-api-key.
+- **Servidor bloqueia SMTP** (erro `ETIMEDOUT` no e-mail): muitos provedores bloqueiam as portas 465 e 587.
+  Use o **Resend**, que envia por HTTPS:
+  - crie uma conta grátis em https://resend.com com o **mesmo e-mail do `MAIL_TO`**
+  - gere a chave em *API Keys*
+  - coloque `RESEND_API_KEY=...` no `.env`
+
+  Com essa chave preenchida, o buscador usa o Resend no lugar do Gmail.
 
 ### Testar sem chave
 ```bash

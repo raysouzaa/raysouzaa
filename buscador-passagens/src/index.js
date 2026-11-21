@@ -54,7 +54,10 @@ export async function runOnce({ useSerpApi = true, boost = null } = {}) {
   const special = specialFares.map(mk).filter(Boolean);
 
   console.log(`[run] ${all.length} tarifas · ${main.length} dentro do limite · ${special.length} caso especial · ${fresh.size} novas · ${((Date.now() - started) / 1000).toFixed(1)}s`);
-  for (const o of [...main, ...special].slice(0, 5)) console.log(`  R$${o.fare.price} ${o.fare.entry}/${o.fare.exit} ${o.fare.depart}→${o.fare.back} ${o.fare.airline}`);
+  const h = (m) => (m == null ? '?' : `${Math.floor(m / 60)}h`);
+  for (const f of all.slice(0, 5)) {
+    console.log(`  R$${f.price} ${f.entry}/${f.exit} ${f.depart}→${f.back} ${f.airline} · ida ${h(f.durationOut)} volta ${h(f.durationBack)} · ${f.source} · ${classify(f, cfg.rules) || 'fora do limite'}`);
+  }
 
   // Envia quando há algo novo/mais barato; sem nada, manda um status a cada heartbeatDays.
   const daysSinceEmail = history.lastEmail ? (Date.now() - Date.parse(history.lastEmail)) / 86_400_000 : Infinity;
@@ -74,7 +77,11 @@ export async function runOnce({ useSerpApi = true, boost = null } = {}) {
     }
     await writeFile(`${DATA_DIR}/ultimo-email.html`, mail.html).catch(() => {});
     for (const a of attachments) await writeFile(`${DATA_DIR}/${a.filename}`, a.content).catch(() => {});
-    if (await sendEmail({ ...mail, attachments })) markSent(history, [...mainFares, ...specialFares]);
+    try {
+      if (await sendEmail({ ...mail, attachments })) markSent(history, [...mainFares, ...specialFares]);
+    } catch (e) {
+      console.error(`[email] falhou: ${e.code || ''} ${e.message}. Se for timeout, o servidor bloqueia SMTP: teste SMTP_PORT=587 ou use RESEND_API_KEY (veja o README).`);
+    }
   } else {
     console.log('[run] nada novo para enviar');
   }
